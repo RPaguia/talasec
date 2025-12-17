@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth scroll-p-28">
+<html lang="en" class="scroll-smooth">
 
 <head>
     <meta charset="UTF-8">
@@ -8,11 +8,21 @@
     <meta name="description"
         content="Tala Security Consulting (TalaSec) - Premium cybersecurity for Influencers, HNWIs, and Small Businesses. Global reach, based in New Zealand.">
 
-    <!-- Tailwind CSS (Loaded via CDN for immediate use) -->
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="TalaSec | Elite Cybersecurity Consulting">
+    <meta property="og:description" content="Concierge cybersecurity for VIPs and Businesses. Protecting your digital life.">
+    <meta property="og:image" content="talasecLogo.png">
+    <meta property="og:url" content="https://talasec.com">
+    <meta property="og:type" content="website">
+
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Font Awesome for Icons -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <!-- Google Fonts -->
     <link
@@ -26,11 +36,10 @@
                     colors: {
                         'tala-black': '#000e21',
                         'tala-dark': '#002d67',
-                        // Updated colors based on the new palette
                         'tala-accent': '#d9af55', /* Metallic Gold */
                         'tala-accent-dark': '#b89240',
                         'tala-yellow': '#f3d07e', /* Jasmine */
-                        'tala-gray': '#002d67', /* Oxford Navy */
+                        'tala-gray': '#94a3b8', /* FIXED: Changed from navy to Slate-400 */
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -55,26 +64,35 @@
                 linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
         }
 
-        /* Updated to use the new gold accent */
         .glow-text {
             text-shadow: 0 0 20px rgba(217, 175, 85, 0.3);
-            /* Gold glow */
         }
 
-        /* Updated to use the new gold accent */
         .card-hover:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 30px -10px rgba(217, 175, 85, 0.15);
-            /* Gold shadow */
             border-color: rgba(217, 175, 85, 0.3);
-            /* Gold border */
         }
 
-        /* Logo Sizing */
         .logo-img {
             height: 110px;
             width: auto;
             display: block;
+        }
+
+        /* FAQ Accordion Styles */
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        
+        .faq-active .faq-answer {
+            max-height: 500px; /* Arbitrary large number */
+        }
+        
+        .faq-active i {
+            transform: rotate(180deg);
         }
     </style>
 </head>
@@ -88,11 +106,8 @@
             <div class="flex justify-between items-center h-28">
                 <!-- Logo Section -->
                 <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="window.scrollTo(0,0)">
-                    <!-- Logo Image -->
                     <img src="talasecLogo.png" alt="TalaSec" class="logo-img mr-4"
                         onerror="this.style.display='none'; document.getElementById('fallback-logo').style.display='flex'">
-
-                    <!-- Fallback Text Logo (Hidden unless image fails) -->
                     <div id="fallback-logo" class="hidden items-center">
                         <i class="fa-solid fa-shield-halved text-tala-accent text-3xl mr-3"></i>
                         <span class="font-bold text-3xl tracking-tighter text-white">Tala<span
@@ -102,14 +117,10 @@
 
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex space-x-8 items-center">
-                    <a href="#about"
-                        class="text-gray-300 hover:text-tala-accent transition-colors text-sm font-medium uppercase tracking-widest">About Us</a>     
-                    <a href="#services"
-                        class="text-gray-300 hover:text-tala-accent transition-colors text-sm font-medium uppercase tracking-widest">Services</a>
-                    <a href="#partners"
-                        class="text-gray-300 hover:text-tala-accent transition-colors text-sm font-medium uppercase tracking-widest">Partners</a>
-                    <a href="#about"
-                        class="text-gray-300 hover:text-tala-accent transition-colors text-sm font-medium uppercase tracking-widest">Company</a>
+                    <a href="#about" class="text-gray-300 hover:text-tala-accent transition-colors text-sm font-medium uppercase tracking-widest">About</a>     
+                    <a href="#services" class="text-gray-300 hover:text-tala-accent transition-colors text-sm font-medium uppercase tracking-widest">Services</a>
+                    <a href="#team" class="text-gray-300 hover:text-tala-accent transition-colors text-sm font-medium uppercase tracking-widest">Team</a>
+                    <a href="#faq" class="text-gray-300 hover:text-tala-accent transition-colors text-sm font-medium uppercase tracking-widest">FAQ</a>
                     <a href="#contact"
                         class="bg-white/5 hover:bg-tala-accent hover:text-tala-black border border-tala-accent text-tala-accent px-6 py-3 rounded-sm transition-all duration-300 font-bold text-sm uppercase">
                         Secure Now
@@ -126,53 +137,38 @@
         </div>
 
         <!-- Mobile Menu Panel -->
-        <div id="mobile-menu" class="hidden md:hidden bg-tala-dark border-t border-white/10 absolute w-full top-28">
+        <div id="mobile-menu" class="hidden md:hidden bg-tala-dark border-t border-white/10 absolute w-full top-28 shadow-2xl">
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="#about"
-                    class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-white/10 rounded-md">About Us</a>
-                <a href="#services"
-                    class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-white/10 rounded-md">Services</a>
-                <a href="#partners"
-                    class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-white/10 rounded-md">Partners</a>
-                <a href="#about"
-                    class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-white/10 rounded-md">Company</a>
-                <a href="#contact"
-                    class="block px-3 py-2 text-base font-medium text-tala-accent hover:bg-white/10 rounded-md">Contact
-                    Us</a>
+                <a href="#about" class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-white/10 rounded-md">About Us</a>
+                <a href="#services" class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-white/10 rounded-md">Services</a>
+                <a href="#team" class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-white/10 rounded-md">Team</a>
+                <a href="#faq" class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-white/10 rounded-md">FAQ</a>
+                <a href="#contact" class="block px-3 py-2 text-base font-medium text-tala-accent hover:bg-white/10 rounded-md">Contact Us</a>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
     <section class="relative h-screen flex items-center justify-center overflow-hidden cyber-grid">
-        <!-- Decorative Elements -->
         <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-tala-accent/10 rounded-full blur-3xl"></div>
-        <!-- Changed secondary glow to yellow -->
         <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-tala-yellow/10 rounded-full blur-3xl"></div>
 
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10 pt-28">
-            <div
-                class="inline-flex items-center px-4 py-1.5 rounded-full border border-tala-accent/30 bg-tala-accent/5 mb-8 animate-fade-in">
+            <div class="inline-flex items-center px-4 py-1.5 rounded-full border border-tala-accent/30 bg-tala-accent/5 mb-8" data-aos="fade-down">
                 <span class="w-2 h-2 rounded-full bg-tala-accent mr-2 animate-pulse"></span>
-                <span class="text-tala-accent text-xs font-mono uppercase tracking-widest">Global Operations • NZ
-                    Headquarters</span>
+                <span class="text-tala-accent text-xs font-mono uppercase tracking-widest">Global Operations • NZ Headquarters</span>
             </div>
 
-            <h1 class="text-5xl md:text-7xl font-black text-white mb-6 tracking-tight leading-tight">
+            <h1 class="text-5xl md:text-7xl font-black text-white mb-6 tracking-tight leading-tight" data-aos="zoom-in" data-aos-delay="200">
                 Empowering Your <br>
-                <!-- Updated gradient to use blue and yellow -->
-                <span
-                    class="text-transparent bg-clip-text bg-gradient-to-r from-tala-accent via-tala-yellow to-white glow-text">Digital
-                    Presence</span>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-tala-accent via-tala-yellow to-white glow-text">Digital Presence</span>
             </h1>
 
-            <p class="mt-4 max-w-2xl mx-auto text-xl text-gray-400 font-light leading-relaxed">
-                The premier cybersecurity concierge for Influencers, HNWIs (High-Net-Worth Individuals), and
-                Forward-Thinking Businesses. We bridge the gap between personal reputation and enterprise-grade
-                security.
+            <p class="mt-4 max-w-2xl mx-auto text-xl text-tala-gray font-light leading-relaxed" data-aos="fade-up" data-aos-delay="400">
+                The premier cybersecurity concierge for Influencers, HNWIs, and Forward-Thinking Businesses. We bridge the gap between personal reputation and enterprise-grade security.
             </p>
 
-            <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
+            <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4" data-aos="fade-up" data-aos-delay="600">
                 <a href="#services"
                     class="px-8 py-4 bg-tala-accent text-tala-black font-bold rounded-sm hover:bg-white transition-colors duration-300 shadow-lg shadow-tala-accent/20">
                     Explore Solutions
@@ -185,12 +181,36 @@
         </div>
     </section>
 
+    <!-- Partners Section -->
+    <section class="py-12 bg-black border-y border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center" data-aos="fade-in">
+            <p class="text-tala-yellow font-mono text-xs tracking-widest mb-8 uppercase opacity-80">Powering Our Intelligence Network</p>
+            <div class="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+                <!-- Partner 1 -->
+                <div class="flex items-center gap-3 group cursor-default">
+                    <i class="fa-solid fa-layer-group text-3xl text-white group-hover:text-tala-accent transition-colors"></i>
+                    <span class="text-xl font-bold tracking-tighter text-gray-300">NULL<span class="text-tala-accent">FORGE</span>™</span>
+                </div>
+                <!-- Partner 2 -->
+                <div class="flex items-center gap-3 group cursor-default">
+                    <i class="fa-solid fa-brain text-3xl text-white group-hover:text-tala-yellow transition-colors"></i>
+                    <span class="text-xl font-bold tracking-tighter text-gray-300">NEURONA<span class="text-tala-yellow">FENCE</span></span>
+                </div>
+                <!-- Partner 3 -->
+                <div class="flex items-center gap-3 group cursor-default">
+                    <i class="fa-solid fa-infinity text-3xl text-white group-hover:text-tala-accent transition-colors"></i>
+                    <span class="text-xl font-bold tracking-tighter text-gray-300">IMMORTAL<span class="text-tala-accent">CYBER</span></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Services Section -->
-    <section id="services" class="py-24 bg-tala-dark relative border-t border-white/5">
+    <section id="services" class="py-24 bg-tala-dark relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
+            <div class="text-center mb-16" data-aos="fade-up">
                 <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Tailored Protection</h2>
-                <p class="text-gray-400">Select your profile to view specialized capabilities.</p>
+                <p class="text-tala-gray">Select your profile to view specialized capabilities.</p>
 
                 <!-- Toggle Switch -->
                 <div class="mt-8 inline-flex bg-black/50 p-1 rounded-lg border border-white/10">
@@ -205,189 +225,113 @@
                 </div>
             </div>
 
-            <!-- Personal Services Grid (Blue Theme) -->
-            <div id="content-personal" class="grid grid-cols-1 md:grid-cols-3 gap-8 animate-fade-in">
-                <div
-                    class="bg-tala-black p-8 rounded-xl border border-white/5 card-hover transition-all duration-300 group">
-                    <div
-                        class="w-12 h-12 bg-tala-accent/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-tala-accent/20 transition-colors">
+            <!-- Personal Services Grid -->
+            <div id="content-personal" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-tala-black p-8 rounded-xl border border-white/5 card-hover transition-all duration-300 group" data-aos="fade-up" data-aos-delay="0">
+                    <div class="w-12 h-12 bg-tala-accent/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-tala-accent/20 transition-colors">
                         <i class="fa-solid fa-user-shield text-tala-accent text-xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-3">Brand & Reputation Monitor</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        We neutralize domain squatters and username impersonators across social platforms worldwide
-                        before they damage your brand.
+                    <h3 class="text-xl font-bold text-white mb-3">Brand & Reputation</h3>
+                    <p class="text-tala-gray text-sm leading-relaxed">
+                        We neutralize domain squatters and username impersonators across social platforms worldwide before they damage your brand.
                     </p>
                 </div>
 
-                <div
-                    class="bg-tala-black p-8 rounded-xl border border-white/5 card-hover transition-all duration-300 group">
-                    <div
-                        class="w-12 h-12 bg-tala-accent/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-tala-accent/20 transition-colors">
+                <div class="bg-tala-black p-8 rounded-xl border border-white/5 card-hover transition-all duration-300 group" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-12 h-12 bg-tala-accent/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-tala-accent/20 transition-colors">
                         <i class="fa-solid fa-key text-tala-accent text-xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-3">Breached Credential Watch</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        Continuous dark web monitoring for your leaked passwords and emails. We provide actionable
-                        alerts before actors can exploit them.
+                    <h3 class="text-xl font-bold text-white mb-3">Credential Watch</h3>
+                    <p class="text-tala-gray text-sm leading-relaxed">
+                        Continuous dark web monitoring for your leaked passwords and emails. We provide actionable alerts before actors can exploit them.
                     </p>
                 </div>
 
-                <div
-                    class="bg-tala-black p-8 rounded-xl border border-white/5 card-hover transition-all duration-300 group">
-                    <div
-                        class="w-12 h-12 bg-tala-accent/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-tala-accent/20 transition-colors">
+                <div class="bg-tala-black p-8 rounded-xl border border-white/5 card-hover transition-all duration-300 group" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-12 h-12 bg-tala-accent/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-tala-accent/20 transition-colors">
                         <i class="fa-solid fa-mobile-screen text-tala-accent text-xl"></i>
                     </div>
                     <h3 class="text-xl font-bold text-white mb-3">Anti-Doxxing Shield</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        Comprehensive scrubbing of personal addresses and private data from data brokers to ensure your
-                        physical safety matches your digital security.
+                    <p class="text-tala-gray text-sm leading-relaxed">
+                        Comprehensive scrubbing of personal addresses and private data from data brokers to ensure your physical safety matches your digital security.
                     </p>
                 </div>
             </div>
 
-            <!-- Business Services Grid (Yellow Theme) -->
-            <div id="content-business" class="hidden grid grid-cols-1 md:grid-cols-3 gap-8 animate-fade-in">
-                <div
-                    class="bg-tala-black p-8 rounded-xl border border-white/5 card-hover transition-all duration-300 group">
-                    <!-- Updated to use yellow accent -->
-                    <div
-                        class="w-12 h-12 bg-tala-yellow/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-tala-yellow/20 transition-colors">
+            <!-- Business Services Grid -->
+            <div id="content-business" class="hidden grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-tala-black p-8 rounded-xl border border-white/5 card-hover transition-all duration-300 group">
+                    <div class="w-12 h-12 bg-tala-yellow/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-tala-yellow/20 transition-colors">
                         <i class="fa-solid fa-bug text-tala-yellow text-xl"></i>
                     </div>
                     <h3 class="text-xl font-bold text-white mb-3">Penetration Testing</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        Rigorous ethical hacking for web apps, mobile apps, and networks. We expose vulnerabilities
-                        using global enterprise standards.
+                    <p class="text-tala-gray text-sm leading-relaxed">
+                        Rigorous ethical hacking for web apps, mobile apps, and networks. We expose vulnerabilities using global enterprise standards.
                     </p>
                 </div>
 
-                <div
-                    class="bg-tala-black p-8 rounded-xl border border-white/5 card-hover transition-all duration-300 group">
-                    <!-- Updated to use yellow accent -->
-                    <div
-                        class="w-12 h-12 bg-tala-yellow/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-tala-yellow/20 transition-colors">
+                <div class="bg-tala-black p-8 rounded-xl border border-white/5 card-hover transition-all duration-300 group">
+                    <div class="w-12 h-12 bg-tala-yellow/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-tala-yellow/20 transition-colors">
                         <i class="fa-solid fa-file-shield text-tala-yellow text-xl"></i>
                     </div>
                     <h3 class="text-xl font-bold text-white mb-3">Security Audits</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        Full compliance readiness reviews. We prepare your SMB for cyber insurance underwriting and
-                        international regulatory standards.
+                    <p class="text-tala-gray text-sm leading-relaxed">
+                        Full compliance readiness reviews. We prepare your SMB for cyber insurance underwriting and international regulatory standards.
                     </p>
                 </div>
 
-                <div
-                    class="bg-tala-black p-8 rounded-xl border border-white/5 card-hover transition-all duration-300 group">
-                    <!-- Updated to use yellow accent -->
-                    <div
-                        class="w-12 h-12 bg-tala-yellow/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-tala-yellow/20 transition-colors">
+                <div class="bg-tala-black p-8 rounded-xl border border-white/5 card-hover transition-all duration-300 group">
+                    <div class="w-12 h-12 bg-tala-yellow/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-tala-yellow/20 transition-colors">
                         <i class="fa-solid fa-envelope-open-text text-tala-yellow text-xl"></i>
                     </div>
                     <h3 class="text-xl font-bold text-white mb-3">Phishing Simulation</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        Advanced social engineering tests. Train your team to recognize sophisticated attacks before
-                        they compromise your data.
+                    <p class="text-tala-gray text-sm leading-relaxed">
+                        Advanced social engineering tests. Train your team to recognize sophisticated attacks before they compromise your data.
                     </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Partners Section -->
-    <section id="partners" class="py-20 bg-black border-y border-white/5">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <!-- Updated to use yellow accent for variety -->
-            <p class="text-tala-yellow font-mono text-sm tracking-widest mb-10 uppercase">Powering Our Intelligence
-                Network</p>
-
-            <div
-                class="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
-                <!-- Partner 1 -->
-                <div class="flex items-center gap-3 group cursor-default">
-                    <i
-                        class="fa-solid fa-layer-group text-4xl text-white group-hover:text-tala-accent transition-colors"></i>
-                    <span class="text-2xl font-bold tracking-tighter text-gray-300">NULL<span
-                            class="text-tala-accent">FORGE</span>™</span>
-                </div>
-
-                <!-- Partner 2 (Updated to use yellow) -->
-                <div class="flex items-center gap-3 group cursor-default">
-                    <i class="fa-solid fa-brain text-4xl text-white group-hover:text-tala-yellow transition-colors"></i>
-                    <span class="text-2xl font-bold tracking-tighter text-gray-300">NEURONA<span
-                            class="text-tala-yellow">FENCE</span></span>
-                </div>
-
-                <!-- Partner 3 -->
-                <div class="flex items-center gap-3 group cursor-default">
-                    <i
-                        class="fa-solid fa-infinity text-4xl text-white group-hover:text-tala-accent transition-colors"></i>
-                    <span class="text-2xl font-bold tracking-tighter text-gray-300">IMMORTAL<span
-                            class="text-tala-accent">CYBER</span></span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Company / About Section -->
-    <section id="about" class="py-24 bg-tala-dark relative overflow-hidden">
+    <!-- About & Map Section -->
+    <section id="about" class="py-24 bg-tala-black relative overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                <div>
-                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Strategic Presence, <br>Global Reach.
-                    </h2>
-                    <p class="text-gray-400 mb-6 text-lg leading-relaxed">
-                        TalaSec leverages a distributed leadership model to serve clients worldwide. Headquartered in
-                        <strong class="text-white">New Zealand</strong>, with strategic operations in <strong
-                            class="text-white">Australia</strong> and the <strong
-                            class="text-white">Philippines</strong>, we provide responsive, top-tier security consulting
-                        regardless of your timezone.
+                <div data-aos="fade-right">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Strategic Presence, <br>Global Reach.</h2>
+                    <p class="text-tala-gray mb-6 text-lg leading-relaxed">
+                        TalaSec leverages a distributed leadership model to serve clients worldwide. Headquartered in <strong class="text-white">New Zealand</strong>, with strategic operations in <strong class="text-white">Australia</strong> and the <strong class="text-white">Philippines</strong>, we provide responsive, top-tier security consulting regardless of your timezone.
                     </p>
                     <ul class="space-y-4 mb-8">
-                        <li class="flex items-center text-gray-300">
-                            <i class="fa-solid fa-building-shield text-tala-accent mr-3"></i> NZ Headquarters & Legal
-                            Domicile
+                        <li class="flex items-center text-tala-gray">
+                            <i class="fa-solid fa-building-shield text-tala-accent mr-3"></i> NZ Headquarters & Legal Domicile
                         </li>
-                        <li class="flex items-center text-gray-300">
-                            <i class="fa-solid fa-location-crosshairs text-tala-accent mr-3"></i> Strategic Operations
-                            Hubs (AU / PH)
+                        <li class="flex items-center text-tala-gray">
+                            <i class="fa-solid fa-location-crosshairs text-tala-accent mr-3"></i> Strategic Operations Hubs (AU / PH)
                         </li>
-                        <li class="flex items-center text-gray-300">
+                        <li class="flex items-center text-tala-gray">
                             <i class="fa-solid fa-globe text-tala-accent mr-3"></i> Serving a Global Client Base
                         </li>
                     </ul>
-                    <a href="#contact"
-                        class="text-tala-accent font-bold hover:text-white transition-colors inline-flex items-center group">
-                        Meet the Directors <i
-                            class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
-                    </a>
                 </div>
 
-                <!-- Map / Status Concept -->
-                <div class="relative">
-                    <!-- Updated gradient to use blue and yellow -->
-                    <div
-                        class="absolute inset-0 bg-gradient-to-tr from-tala-accent/10 to-tala-yellow/10 rounded-2xl blur-2xl">
-                    </div>
-                    <div class="relative bg-tala-black border border-white/10 rounded-2xl p-8">
+                <div class="relative" data-aos="fade-left">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-tala-accent/10 to-tala-yellow/10 rounded-2xl blur-2xl"></div>
+                    <div class="relative bg-tala-dark border border-white/10 rounded-2xl p-8">
                         <div class="flex items-center justify-between mb-8 border-b border-white/10 pb-4">
                             <span class="text-sm font-mono text-gray-500">NETWORK.STATUS</span>
                             <span class="text-sm font-mono text-green-500">● ACTIVE</span>
                         </div>
                         <div class="space-y-4 font-mono text-sm">
-                            <div
-                                class="flex justify-between items-center p-3 bg-white/5 rounded hover:bg-white/10 transition-colors">
+                            <div class="flex justify-between items-center p-3 bg-white/5 rounded hover:bg-white/10 transition-colors">
                                 <span class="text-gray-400">Technical Services</span>
                                 <span class="text-tala-accent">Melbourne, AU</span>
                             </div>
-                            <div
-                                class="flex justify-between items-center p-3 bg-white/5 rounded hover:bg-white/10 transition-colors">
+                            <div class="flex justify-between items-center p-3 bg-white/5 rounded hover:bg-white/10 transition-colors">
                                 <span class="text-gray-400">Client Success</span>
-                                <!-- Used yellow for variety -->
                                 <span class="text-tala-yellow">Auckland, NZ</span>
                             </div>
-                            <div
-                                class="flex justify-between items-center p-3 bg-white/5 rounded hover:bg-white/10 transition-colors">
+                            <div class="flex justify-between items-center p-3 bg-white/5 rounded hover:bg-white/10 transition-colors">
                                 <span class="text-gray-400">Sales</span>
                                 <span class="text-tala-accent">Manila, PH</span>
                             </div>
@@ -401,26 +345,165 @@
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="py-24 bg-black relative">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-tala-dark border border-white/10 rounded-2xl p-8 md:p-12 shadow-2xl">
-                <div class="text-center mb-10">
-                    <h2 class="text-3xl font-bold text-white mb-4">Secure Your Future</h2>
-                    <p class="text-gray-400">Initiate a confidential consultation with our team.</p>
+    <!-- NEW SECTION: Team / Directors -->
+    <section id="team" class="py-20 bg-tala-dark border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Leadership</h2>
+                <p class="text-tala-gray">Experts in Cyber Warfare, Intelligence, and Corporate Risk.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Team Member 1 -->
+                <div class="bg-tala-black p-6 rounded-xl border border-white/5 text-center group hover:border-tala-accent transition-all duration-300" data-aos="flip-left" data-aos-delay="0">
+                    <a href="https://www.linkedin.com/in/ronnie-paguia-100368105/" htttarget="_blank" title="View LinkedIn Profile" 
+                        class="block w-24 h-24 mx-auto mb-6 rounded-full overflow-hidden border-2 border-tala-accent/30 p-1 hover:border-tala-accent hover:scale-110 transition-all duration-300 cursor-pointer">
+
+                        <!-- Placeholder Image -->
+                        <img src="photoRonnie.jfif" alt="Director" class="w-full h-full rounded-full object-cover">
+                    </a>
+                    <h3 class="text-xl font-bold text-white">Ronnie Paguia</h3>
+                    <p class="text-tala-accent text-xs font-mono uppercase tracking-widest mb-4">Chief Operating Officer</p>
+                    <p class="text-tala-gray text-sm">Driving operational excellence and strategic growth at Talasec, leveraging expertise in AI and computer science to optimize business processes and foster innovation in cybersecurity solutions.</p>
                 </div>
 
-                <form class="space-y-6">
+                <!-- Team Member 2 -->
+                <div class="bg-tala-black p-6 rounded-xl border border-white/5 text-center group hover:border-tala-accent transition-all duration-300" data-aos="flip-left" data-aos-delay="200">
+                    <a href="https://www.linkedin.com/in/jelloso/" htttarget="_blank" title="View LinkedIn Profile" 
+                        class="block w-24 h-24 mx-auto mb-6 rounded-full overflow-hidden border-2 border-tala-accent/30 p-1 hover:border-tala-accent hover:scale-110 transition-all duration-300 cursor-pointer">
+
+                        <img src="photoJay.jfif" alt="Director" class="w-full h-full rounded-full object-cover">
+                    </a>
+                    <h3 class="text-xl font-bold text-white">Jeremiah Elloso</h3>
+                    <p class="text-tala-accent text-xs font-mono uppercase tracking-widest mb-4">Chief Technology Officer</p>
+                    <p class="text-tala-gray text-sm">Leading Talasec's technological advancements with over six years of experience in abuse mitigation and trust & safety, driving innovation in cybersecurity solutions and fostering a culture of security-first practices.</p>
+                </div>
+
+                <!-- Team Member 3 -->
+                <div class="bg-tala-black p-6 rounded-xl border border-white/5 text-center group hover:border-tala-accent transition-all duration-300" data-aos="flip-left" data-aos-delay="400">
+                    <a href="https://www.linkedin.com/in/gerald-esquillo-2935a15a/" target="_blank" title="View LinkedIn Profile" 
+                        class="block w-24 h-24 mx-auto mb-6 rounded-full overflow-hidden border-2 border-tala-accent/30 p-1 hover:border-tala-accent hover:scale-110 transition-all duration-300 cursor-pointer">
+                        <img src="photoGedd.jfif" alt="Director" class="w-full h-full rounded-full object-cover">
+                    </a>
+                    <h3 class="text-xl font-bold text-white">Gerald Esquillo</h3>
+                    <p class="text-tala-accent text-xs font-mono uppercase tracking-widest mb-4">Chief Sales and Marketing Officer</p>
+                    <p class="text-tala-gray text-sm">Propelling Talasec's growth through strategic sales and marketing initiatives, leveraging over 15 years of experience in business development and marketing to drive client acquisition and revenue growth.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW SECTION: Testimonials -->
+    <section class="py-20 bg-tala-black relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-tala-accent/5 rounded-full blur-3xl"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-white mb-12 text-center" data-aos="fade-up">Trusted by the Elite</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="p-8 bg-white/5 rounded-lg border border-white/5 relative" data-aos="fade-right">
+                    <i class="fa-solid fa-quote-left text-4xl text-tala-accent/20 absolute top-4 left-4"></i>
+                    <p class="text-gray-300 italic mb-6 relative z-10">"TalaSec identified a vulnerability in our e-commerce platform that three previous audits missed. Their discretion and speed are unmatched."</p>
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-gray-600 rounded-full mr-3"></div>
+                        <div>
+                            <p class="font-bold text-white text-sm">CEO, FinTech Startup</p>
+                            <p class="text-xs text-tala-gray">Sydney, Australia</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-8 bg-white/5 rounded-lg border border-white/5 relative" data-aos="fade-left">
+                    <i class="fa-solid fa-quote-left text-4xl text-tala-accent/20 absolute top-4 left-4"></i>
+                    <p class="text-gray-300 italic mb-6 relative z-10">"As a public figure, my privacy is my currency. TalaSec scrubbed my personal data from the web and secured my accounts. I finally feel safe online."</p>
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-gray-600 rounded-full mr-3"></div>
+                        <div>
+                            <p class="font-bold text-white text-sm">Verified Content Creator</p>
+                            <p class="text-xs text-tala-gray">Los Angeles, USA</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW SECTION: FAQ -->
+    <section id="faq" class="py-20 bg-tala-dark border-t border-white/5">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-white mb-10 text-center" data-aos="fade-up">Frequently Asked Questions</h2>
+            
+            <div class="space-y-4" data-aos="fade-up" data-aos-delay="200">
+                <!-- FAQ Item 1 -->
+                <div class="bg-tala-black border border-white/10 rounded-lg overflow-hidden faq-item cursor-pointer" onclick="toggleFaq(this)">
+                    <div class="p-4 flex justify-between items-center">
+                        <h3 class="font-bold text-white">Do you work with individuals or only companies?</h3>
+                        <i class="fa-solid fa-chevron-down text-tala-accent transition-transform duration-300"></i>
+                    </div>
+                    <div class="faq-answer bg-white/5">
+                        <div class="p-4 text-tala-gray text-sm border-t border-white/5">
+                            We serve both. Our "VIP & Personal" track is specifically designed for Influencers, High-Net-Worth Individuals, and families requiring privacy, while our "Business" track focuses on corporate infrastructure.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="bg-tala-black border border-white/10 rounded-lg overflow-hidden faq-item cursor-pointer" onclick="toggleFaq(this)">
+                    <div class="p-4 flex justify-between items-center">
+                        <h3 class="font-bold text-white">Is my consultation confidential?</h3>
+                        <i class="fa-solid fa-chevron-down text-tala-accent transition-transform duration-300"></i>
+                    </div>
+                    <div class="faq-answer bg-white/5">
+                        <div class="p-4 text-tala-gray text-sm border-t border-white/5">
+                            Absolutely. We sign an NDA (Non-Disclosure Agreement) before discussing any specific details of your security situation. Your privacy is our primary product.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="bg-tala-black border border-white/10 rounded-lg overflow-hidden faq-item cursor-pointer" onclick="toggleFaq(this)">
+                    <div class="p-4 flex justify-between items-center">
+                        <h3 class="font-bold text-white">What is the turnaround time for an audit?</h3>
+                        <i class="fa-solid fa-chevron-down text-tala-accent transition-transform duration-300"></i>
+                    </div>
+                    <div class="faq-answer bg-white/5">
+                        <div class="p-4 text-tala-gray text-sm border-t border-white/5">
+                            Initial assessments are typically completed within 48-72 hours. Full penetration testing and comprehensive audits depend on the scope of your network but generally take 1-2 weeks.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section (UPDATED FUNCTIONALITY) -->
+    <section id="contact" class="py-24 bg-black relative">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-tala-dark border border-white/10 rounded-2xl p-8 md:p-12 shadow-2xl" data-aos="zoom-in-up">
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl font-bold text-white mb-4">Secure Your Future</h2>
+                    <p class="text-tala-gray">Initiate a confidential consultation with our team.</p>
+                </div>
+
+                <!-- 
+                     IMPORTANT: To make this form work, go to https://web3forms.com/
+                     1. Enter your email to get an Access Key.
+                     2. Replace "YOUR_ACCESS_KEY_HERE" in the input below with your key.
+                -->
+                <form action="https://api.web3forms.com/submit" method="POST" class="space-y-6">
+                    <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE">
+                    <!-- Optional: Redirect to a thank you page -->
+                    <!-- <input type="hidden" name="redirect" value="https://yourwebsite.com/thanks.html"> -->
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-xs font-mono text-gray-500 mb-2 uppercase">Name</label>
-                            <input type="text"
+                            <input type="text" name="name" required
                                 class="w-full bg-black border border-white/10 rounded-md px-4 py-3 text-white focus:outline-none focus:border-tala-accent transition-colors"
                                 placeholder="Name or Organization">
                         </div>
                         <div>
                             <label class="block text-xs font-mono text-gray-500 mb-2 uppercase">Email</label>
-                            <input type="email"
+                            <input type="email" name="email" required
                                 class="w-full bg-black border border-white/10 rounded-md px-4 py-3 text-white focus:outline-none focus:border-tala-accent transition-colors"
                                 placeholder="secure@example.com">
                         </div>
@@ -428,7 +511,7 @@
 
                     <div>
                         <label class="block text-xs font-mono text-gray-500 mb-2 uppercase">I am interested in</label>
-                        <select
+                        <select name="service"
                             class="w-full bg-black border border-white/10 rounded-md px-4 py-3 text-white focus:outline-none focus:border-tala-accent transition-colors">
                             <option>VIP / Personal Protection</option>
                             <option>SMB Security Audit</option>
@@ -439,15 +522,17 @@
 
                     <div>
                         <label class="block text-xs font-mono text-gray-500 mb-2 uppercase">Message</label>
-                        <textarea rows="4"
+                        <textarea name="message" rows="4" required
                             class="w-full bg-black border border-white/10 rounded-md px-4 py-3 text-white focus:outline-none focus:border-tala-accent transition-colors"
                             placeholder="Briefly describe your security needs..."></textarea>
                     </div>
 
-                    <button type="button"
+                    <button type="submit"
                         class="w-full bg-tala-accent text-tala-black font-bold py-4 rounded-md hover:bg-white transition-colors duration-300 uppercase tracking-widest text-sm shadow-lg shadow-tala-accent/20">
                         Send Secure Message
                     </button>
+                    
+                    <p class="text-xs text-center text-gray-600 mt-4">By submitting this form, you agree to our privacy policy. Communication is encrypted.</p>
                 </form>
             </div>
         </div>
@@ -458,7 +543,6 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-center mb-8">
                 <div class="flex items-center mb-4 md:mb-0">
-                    <!-- Footer Logo (matches header) -->
                     <div class="flex items-center">
                         <img src="talasecLogo.png" alt="TalaSec" class="h-16 w-auto mr-4"
                             onerror="this.style.display='none'; document.getElementById('footer-fallback-logo').style.display='block'">
@@ -466,8 +550,10 @@
                                 class="text-tala-accent">Sec</span></div>
                     </div>
                 </div>
-                <div class="text-gray-500 text-sm">
-                    &copy; 2025 Tala Security Consulting Limited. All rights reserved.
+                <div class="flex flex-col md:flex-row gap-6 text-gray-500 text-sm items-center">
+                    <a href="#" class="hover:text-tala-accent transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-tala-accent transition-colors">Terms of Service</a>
+                    <span>&copy; 2025 Tala Security Consulting Limited.</span>
                 </div>
             </div>
             <div class="text-center text-xs text-gray-600 font-mono">
@@ -476,8 +562,18 @@
         </div>
     </footer>
 
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
     <!-- JavaScript for Interactions -->
     <script>
+        // Initialize Animations
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 50
+        });
+
         // Mobile Menu Toggle
         const btn = document.getElementById('mobile-menu-btn');
         const menu = document.getElementById('mobile-menu');
@@ -485,6 +581,20 @@
         btn.addEventListener('click', () => {
             menu.classList.toggle('hidden');
         });
+
+        // FAQ Toggle Logic
+        function toggleFaq(element) {
+            // Close all others first (optional - remove this block if you want multiple open)
+            const allFaqs = document.querySelectorAll('.faq-item');
+            allFaqs.forEach(faq => {
+                if (faq !== element) {
+                    faq.classList.remove('faq-active');
+                }
+            });
+
+            // Toggle current
+            element.classList.toggle('faq-active');
+        }
 
         // Tab Switcher Logic
         function switchTab(tab) {
@@ -496,6 +606,9 @@
             if (tab === 'personal') {
                 contentPersonal.classList.remove('hidden');
                 contentBusiness.classList.add('hidden');
+                
+                // Trigger animation refresh for new content
+                setTimeout(() => AOS.refresh(), 100);
 
                 // Update Button Styles
                 tabPersonal.classList.add('bg-tala-accent', 'text-tala-black');
@@ -506,6 +619,9 @@
             } else {
                 contentPersonal.classList.add('hidden');
                 contentBusiness.classList.remove('hidden');
+
+                // Trigger animation refresh for new content
+                setTimeout(() => AOS.refresh(), 100);
 
                 // Update Button Styles
                 tabBusiness.classList.add('bg-tala-accent', 'text-tala-black');
@@ -519,3 +635,4 @@
 </body>
 
 </html>
+```
